@@ -1,18 +1,35 @@
-function checkNumbers(sizeofarray, divider){
-    if (isNaN(sizeofarray))  return "Ошибка ввода!";
-    if (Number(sizeofarray) <= 0) return "Размер массива должен быть больше 0!";
-    let arr = new Array(+sizeofarray);
-    arr.fill(null);
-    arr = arr.map(function(item, i){
-       item = prompt(`Введите ${i} элемент массива : `);
-       return Number(item);
-       })
-    return arr = arr.filter(function(item){
-       if(item % divider === 0)  return item;
-       })
+const prompt = require('prompt-sync')();
+const DIVIDER = 3;
+
+processTask();
+
+function checkNumbers(arr) {
+   return arr = arr.filter(function(item) {
+      if(item % DIVIDER === 0)  return item;
+   })
 }
 
-const prompt = require('prompt-sync')();
-const sizeofarray = prompt('Введите размер массива: ');
+function createArray (sizeofarray ){
+   return new Array(Number(sizeofarray)).fill(null).map(function(item, i) {
+      item = prompt(`Введите ${i} элемент массива : `);
+      return Number(item);
+   })
+}
 
-console.log(checkNumbers(sizeofarray, 3));
+function validator(sizeofarray) {
+   if (isNaN(sizeofarray)) throw "Ошибка ввода!";
+   if (Number(sizeofarray) <= 0) throw "Размер массива должен быть больше 0!";
+}
+
+function processTask() {
+   try {
+      const sizeofarray = prompt('Введите размер массива: ');
+
+      validator(sizeofarray)
+
+      const arr = createArray(sizeofarray);
+      console.log(checkNumbers(arr));
+   } catch(message) {
+      console.log(message);
+   }
+}
